@@ -4,9 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class BlockBenchModelGroup(
-    val name: String,
+    var name: String,
     val origin: MutableList<Float>,
     val children: MutableList<Int>,
+    var color: Int? = null
 ) {
     fun move(x: Float, y: Float, z: Float) {
         origin[0] += x

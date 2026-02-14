@@ -1,8 +1,9 @@
 {
   "format_version": "1.21.6",
   "credit": "Made with Blockbench",
+  "parent": "minecraft:leather_horse_armor",
   "textures": {
-    "0": "arrow_left"
+    "0": "surf:gui/icons/arrow_left"
   },
   "elements": [
     {

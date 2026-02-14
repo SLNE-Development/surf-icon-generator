@@ -12,8 +12,11 @@ class ModelGenerator(
 ) {
     companion object {
         private val json = Json {
-            prettyPrint = false
-            ignoreUnknownKeys = true
+            prettyPrint = true
+            ignoreUnknownKeys = false
+            encodeDefaults = true
+            explicitNulls = false
+            allowStructuredMapKeys = true
         }
     }
 
@@ -62,9 +65,7 @@ class ModelGenerator(
         val iconBase = decodeModel(iconBaseModelPath()).applyTint()
         val iconModel = decodeModel(modelInputPath().resolve("$modelName.json"))
 
-        iconBase.merge(iconModel)
-
-        return iconBase
+        return iconBase.merge(iconModel)
     }
 
     private fun writeModel(

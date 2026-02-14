@@ -6,7 +6,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class BlockBenchModelElementFace(
     val uv: MutableList<Float>,
-    val texture: String,
+    var texture: String,
+    var rotation: Int? = null,
     var cullface: Direction? = null,
     var tintindex: Int? = null
 ) {

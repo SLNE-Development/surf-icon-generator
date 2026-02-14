@@ -1,45 +1,38 @@
 package dev.slne.surf.icon.generator.nexo
 
-import dev.slne.surf.icon.generator.nexo.component.Components
-import dev.slne.surf.icon.generator.utils.Color
+import dev.slne.surf.icon.generator.nexo.component.Pack
 import org.spongepowered.configurate.kotlin.objectMapperFactory
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import java.nio.file.Path
-import kotlin.io.path.createDirectories
 
 class ConfigGenerator(
     private val configOutputPath: () -> Path,
     private val modelOutputPath: () -> Path
 ) {
-    fun generateAll(color: Color) {
+    fun generateAll() {
         val models = findAllModels()
 
         models.forEach { model ->
-            generate(model, color)
+            generate(model)
         }
     }
 
-    fun generate(modelName: String, color: Color) {
-        val tintableBaseItem = generateTintableBaseItem(modelName, color)
-        val tintableIconItem = generateTintableIconItem(modelName, color)
+    fun generate(modelName: String) {
+        val tintableBaseItem = generateTintableBaseItem(modelName)
+        val tintableIconItem = generateTintableIconItem(modelName)
 
         writeToYml(
             modelName,
-            color,
             listOf(tintableBaseItem, tintableIconItem)
         )
     }
 
     private fun writeToYml(
         modelName: String,
-        color: Color,
         items: List<ItemWithName>
     ) {
-        val configPath = configOutputPath().resolve(modelName)
-        configPath.createDirectories()
-
         val loader = YamlConfigurationLoader.builder()
-            .path(configPath.resolve("${color.name}.yml"))
+            .path(configOutputPath().resolve("${modelName}.yml"))
             .defaultOptions { options ->
                 options.serializers { builder ->
                     builder.registerAnnotatedObjects(objectMapperFactory())
@@ -55,24 +48,24 @@ class ConfigGenerator(
         loader.save(root)
     }
 
-    private fun generateTintableBaseItem(modelName: String, color: Color) = ItemWithName(
-        name = "surf_icon_${modelName}_tintable_base_${color.name}",
+    private fun generateTintableBaseItem(modelName: String) = ItemWithName(
+        name = "surf_icon_${modelName}_tintable_base",
         item = Item(
-            itemName = "${color.name} $modelName tintable base icon",
-            components = Components(
-                itemModel = "surf:models/gui/icons/${modelName}/tintable_base",
-                color = color.toRgbString()
+            material = "LEATHER_HORSE_ARMOR",
+            itemName = "$modelName tintable base icon",
+            pack = Pack(
+                model = "surf:gui/icons/${modelName}/tintable_base"
             )
         )
     )
 
-    private fun generateTintableIconItem(modelName: String, color: Color) = ItemWithName(
-        name = "surf_icon_${modelName}_tintable_icon_${color.name}",
+    private fun generateTintableIconItem(modelName: String) = ItemWithName(
+        name = "surf_icon_${modelName}_tintable_icon",
         item = Item(
-            itemName = "${color.name} $modelName tintable icon",
-            components = Components(
-                itemModel = "surf:models/gui/icons/${modelName}/tintable_icon",
-                color = color.toRgbString()
+            material = "LEATHER_HORSE_ARMOR",
+            itemName = "$modelName tintable icon",
+            pack = Pack(
+                model = "surf:gui/icons/${modelName}/tintable_icon"
             )
         )
     )
