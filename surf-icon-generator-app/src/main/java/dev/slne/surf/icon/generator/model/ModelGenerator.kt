@@ -1,9 +1,5 @@
 package dev.slne.surf.icon.generator.model
 
-import dev.slne.surf.surfapi.core.api.util.mutableObjectListOf
-import it.unimi.dsi.fastutil.objects.ObjectList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.nio.file.Path
@@ -21,7 +17,7 @@ class ModelGenerator(
         }
     }
 
-    suspend fun generateAll() {
+    fun generateAll() {
         val all = findAllJsons()
 
         all.forEach { file ->
@@ -30,7 +26,7 @@ class ModelGenerator(
         }
     }
 
-    suspend fun generate(modelName: String) {
+    fun generate(modelName: String) {
         val modelPath: Path = modelOutputPath().resolve(modelName)
         modelPath.createDirectories()
 
@@ -41,8 +37,8 @@ class ModelGenerator(
         writeModel(tintableIconModel, "tintable_icon", modelPath)
     }
 
-    private suspend fun findAllJsons(): ObjectList<File> = withContext(Dispatchers.IO) {
-        val files = mutableObjectListOf<File>()
+    private fun findAllJsons(): List<File> {
+        val files = mutableListOf<File>()
 
         modelInputPath().toFile().walkTopDown().forEach { file ->
             if (file.isFile && file.extension == "json") {
@@ -50,10 +46,10 @@ class ModelGenerator(
             }
         }
 
-        return@withContext files
+        return files
     }
 
-    private suspend fun generateTintableIconModel(modelName: String): BlockBenchModel {
+    private fun generateTintableIconModel(modelName: String): BlockBenchModel {
         val iconBase = decodeModel(iconBaseModelPath())
         val iconModel = decodeModel(modelInputPath().resolve("$modelName.json")).applyTint()
 
@@ -62,7 +58,7 @@ class ModelGenerator(
         return iconBase
     }
 
-    private suspend fun generateTintableBaseModel(modelName: String): BlockBenchModel {
+    private fun generateTintableBaseModel(modelName: String): BlockBenchModel {
         val iconBase = decodeModel(iconBaseModelPath()).applyTint()
         val iconModel = decodeModel(modelInputPath().resolve("$modelName.json"))
 
@@ -71,20 +67,20 @@ class ModelGenerator(
         return iconBase
     }
 
-    private suspend fun writeModel(
+    private fun writeModel(
         model: BlockBenchModel,
         fileName: String,
         filePath: Path
-    ) = withContext(Dispatchers.IO) {
+    ) {
         val file = filePath.resolve("$fileName.json").toFile()
         file.delete()
 
         file.writeText(json.encodeToString(BlockBenchModel.serializer(), model))
     }
 
-    private suspend fun decodeModel(filePath: Path): BlockBenchModel = withContext(Dispatchers.IO) {
+    private fun decodeModel(filePath: Path): BlockBenchModel {
         val file = filePath.toFile()
 
-        return@withContext json.decodeFromString(BlockBenchModel.serializer(), file.readText())
+        return json.decodeFromString(BlockBenchModel.serializer(), file.readText())
     }
 }

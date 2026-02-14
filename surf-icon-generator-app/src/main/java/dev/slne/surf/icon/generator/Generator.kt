@@ -12,14 +12,23 @@ class Generator(
     private val modelOutputPath: () -> Path,
     private val configOutputPath: () -> Path
 ) {
-    private val modelGenerator = ModelGenerator(iconBaseModelPath, modelInputPath, modelOutputPath)
-    private val configGenerator = ConfigGenerator(configOutputPath, modelOutputPath)
+    private val modelGenerator =
+        ModelGenerator(
+            iconBaseModelPath,
+            modelInputPath,
+            modelOutputPath
+        )
+    private val configGenerator =
+        ConfigGenerator(
+            configOutputPath,
+            modelOutputPath
+        )
 
-    suspend fun generateModels() {
+    fun generateModels() {
         modelGenerator.generateAll()
     }
 
-    suspend fun generateConfigs(color: Color) {
+    fun generateConfigs(color: Color) {
         configGenerator.generateAll(color)
     }
 }

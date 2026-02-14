@@ -3,17 +3,27 @@ package dev.slne.surf.icon.generator
 import com.sun.javafx.application.LauncherImpl
 import dev.slne.surf.icon.generator.gui.MainApplication
 import dev.slne.surf.icon.generator.utils.UserSettings
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 object Main {
-    val scope =
+    private val scope =
         CoroutineScope(SupervisorJob() + CoroutineName("Main") + CoroutineExceptionHandler { context, throwable ->
             println("Coroutine exception in ${context[CoroutineName]}")
             throwable.printStackTrace()
         })
+
+    fun launch(
+        context: CoroutineContext = scope.coroutineContext,
+        start: CoroutineStart = CoroutineStart.DEFAULT,
+        block: suspend CoroutineScope.() -> Unit
+    ): Job {
+        if (!scope.isActive) {
+            return Job()
+        }
+
+        return scope.launch(context, start, block)
+    }
 
     val generator = Generator(
         iconBaseModelPath = { UserSettings.iconBaseModelFile!! },
@@ -22,7 +32,7 @@ object Main {
         configOutputPath = { UserSettings.outputConfigsDir!! }
     )
 
-    fun launch() {
+    fun run() {
         LauncherImpl.launchApplication(MainApplication::class.java, emptyArray())
     }
 }

@@ -13,6 +13,7 @@ import javafx.stage.FileChooser
 import javafx.stage.Stage
 import javafx.stage.Window
 import java.nio.file.Path
+import kotlin.io.path.exists
 
 val Button.isConfigReady: Boolean
     get() = isModelReady && UserSettings.outputConfigsDir != null
@@ -38,7 +39,7 @@ fun Pane.labeledBox(label: String, field: TextField, button: Button?): VBox {
 
 fun Pane.chooseDirectory(stage: Stage, initialPath: Path?): Path? {
     return DirectoryChooser().apply {
-        if (initialPath != null) {
+        if (initialPath != null && initialPath.exists()) {
             initialDirectory = initialPath.toFile()
         }
     }.showDialog(stage)?.toPath()
@@ -46,7 +47,7 @@ fun Pane.chooseDirectory(stage: Stage, initialPath: Path?): Path? {
 
 fun Pane.chooseFile(window: Window, initialPath: Path?): Path? {
     return FileChooser().apply {
-        if (initialPath != null) {
+        if (initialPath != null && initialPath.exists()) {
             initialDirectory = initialPath.parent.toFile()
         }
     }.showOpenDialog(window)?.toPath()

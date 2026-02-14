@@ -1,6 +1,7 @@
 package dev.slne.surf.icon.generator.gui
 
 import javafx.animation.FadeTransition
+import javafx.geometry.Insets
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.layout.Pane
@@ -18,7 +19,10 @@ class Sidebar(
     init {
         styleClass.add("sidebar")
 
-        val modelButton = createSidebarButton("Model Generator", ModelCard(stage))
+        val modelButton = createSidebarButton(
+            "Model Generator",
+            ModelCard(stage)
+        )
         val configButton = createSidebarButton("Config Generator", ConfigCard(stage))
 
         contentStack.children.addAll(configButton.view, modelButton.view)
@@ -31,7 +35,7 @@ class Sidebar(
         children.addAll(
             Label("Surf Icon Generator").apply {
                 styleClass.add("title-label")
-                padding = javafx.geometry.Insets(0.0, 0.0, 20.0, 0.0)
+                padding = Insets(0.0, 0.0, 20.0, 0.0)
             },
             modelButton.button,
             configButton.button

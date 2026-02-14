@@ -2,11 +2,9 @@ package dev.slne.surf.icon.generator.gui
 
 import dev.slne.surf.icon.generator.Main
 import dev.slne.surf.icon.generator.utils.*
-import javafx.application.Platform
 import javafx.scene.control.*
 import javafx.scene.layout.VBox
 import javafx.stage.Stage
-import kotlinx.coroutines.launch
 
 class ModelCard(
     stage: Stage
@@ -35,19 +33,15 @@ class ModelCard(
                 progress.isVisible = true
                 isDisable = true
 
-                Main.scope.launch {
-                    Main.generator.generateModels()
+                Main.generator.generateModels()
 
-                    Platform.runLater {
-                        progress.isVisible = false
-                        isDisable = false
+                progress.isVisible = false
+                isDisable = false
 
-                        Alert(
-                            Alert.AlertType.INFORMATION,
-                            "Models generated successfully!"
-                        ).showAndWait()
-                    }
-                }
+                Alert(
+                    Alert.AlertType.INFORMATION,
+                    "Models generated successfully!"
+                ).showAndWait()
             }
         }
 

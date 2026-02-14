@@ -2,10 +2,6 @@ package dev.slne.surf.icon.generator.nexo
 
 import dev.slne.surf.icon.generator.nexo.component.Components
 import dev.slne.surf.icon.generator.utils.Color
-import dev.slne.surf.surfapi.core.api.util.toObjectList
-import it.unimi.dsi.fastutil.objects.ObjectList
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.spongepowered.configurate.kotlin.objectMapperFactory
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import java.nio.file.Path
@@ -15,7 +11,7 @@ class ConfigGenerator(
     private val configOutputPath: () -> Path,
     private val modelOutputPath: () -> Path
 ) {
-    suspend fun generateAll(color: Color) {
+    fun generateAll(color: Color) {
         val models = findAllModels()
 
         models.forEach { model ->
@@ -23,7 +19,7 @@ class ConfigGenerator(
         }
     }
 
-    suspend fun generate(modelName: String, color: Color) {
+    fun generate(modelName: String, color: Color) {
         val tintableBaseItem = generateTintableBaseItem(modelName, color)
         val tintableIconItem = generateTintableIconItem(modelName, color)
 
@@ -34,11 +30,11 @@ class ConfigGenerator(
         )
     }
 
-    private suspend fun writeToYml(
+    private fun writeToYml(
         modelName: String,
         color: Color,
         items: List<ItemWithName>
-    ) = withContext(Dispatchers.IO) {
+    ) {
         val configPath = configOutputPath().resolve(modelName)
         configPath.createDirectories()
 
@@ -84,11 +80,11 @@ class ConfigGenerator(
         val item: Item
     )
 
-    private suspend fun findAllModels(): ObjectList<String> = withContext(Dispatchers.IO) {
-        return@withContext modelOutputPath().toFile().walkTopDown()
+    private fun findAllModels(): List<String> {
+        return modelOutputPath().toFile().walkTopDown()
             .filter { it.isDirectory }
             .filter { it.toPath() != modelOutputPath() }
             .map { it.name }
-            .toObjectList()
+            .toList()
     }
 }

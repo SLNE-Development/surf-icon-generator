@@ -1,8 +1,4 @@
 rootProject.name = "surf-icon-generator"
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        maven("https://repo.slne.dev/repository/maven-public/") { name = "maven-public" }
-    }
-}
+include("surf-icon-generator-launcher")
+include("surf-icon-generator-app")
