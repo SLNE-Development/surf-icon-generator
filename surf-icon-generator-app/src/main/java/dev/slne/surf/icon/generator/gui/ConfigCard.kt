@@ -21,7 +21,7 @@ class ConfigCard(
             isDisable = !isConfigReady
 
             onAction = { _ ->
-                val color = Color.Companion.fromFx(colorNameField.text, colorPicker.value)
+                val color = Color.fromFx(colorNameField.text, colorPicker.value)
                 progress.isVisible = true
                 isDisable = true
 

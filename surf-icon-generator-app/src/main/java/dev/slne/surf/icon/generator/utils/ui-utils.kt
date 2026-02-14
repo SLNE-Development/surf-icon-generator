@@ -19,9 +19,9 @@ val Button.isConfigReady: Boolean
     get() = isModelReady && UserSettings.outputConfigsDir != null
 
 val Button.isModelReady: Boolean
-    get() = UserSettings.outputConfigsDir != null &&
-            UserSettings.iconBaseModelFile != null &&
-            UserSettings.inputModelsDir != null
+    get() = UserSettings.iconBaseModelFile != null &&
+            UserSettings.inputModelsDir != null &&
+            UserSettings.outputModelsDir != null
 
 fun Pane.labeledBox(label: String, field: TextField, button: Button?): VBox {
     field.prefWidth = 400.0
