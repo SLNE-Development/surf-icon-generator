@@ -4,15 +4,19 @@ import dev.slne.surf.icon.generator.nexo.component.Pack
 import org.spongepowered.configurate.kotlin.objectMapperFactory
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import java.nio.file.Path
+import kotlin.io.path.createFile
+import kotlin.io.path.createParentDirectories
+import kotlin.io.path.deleteIfExists
 
 @Suppress("CanBeParameter")
 class ConfigGenerator(
     private val configOutputPath: () -> Path,
     private val modelOutputPath: () -> Path
 ) {
+    private val configPath = configOutputPath().resolve("icons.yml")
 
     private val yamlLoader = YamlConfigurationLoader.builder()
-        .path(configOutputPath().resolve("icons.yml"))
+        .path(configPath)
         .defaultOptions { options ->
             options.serializers { builder ->
                 builder.registerAnnotatedObjects(objectMapperFactory())
@@ -23,6 +27,10 @@ class ConfigGenerator(
     private val rootNode = yamlLoader.load()
 
     fun generateAll() {
+        configPath.deleteIfExists()
+        configPath.createParentDirectories()
+        configPath.createFile()
+
         val models = findAllModels()
 
         models.forEach { model ->
@@ -53,23 +61,23 @@ class ConfigGenerator(
     }
 
     private fun generateTintableBaseItem(modelName: String) = ItemWithName(
-        name = "surf_icon_${modelName}_tintable_base",
+        name = "surf_icon_${modelName}",
         item = Item(
             material = "LEATHER_HORSE_ARMOR",
             itemName = "$modelName tintable base icon",
             pack = Pack(
-                model = "surf:gui/icons/${modelName}/tintable_base"
+                model = "surf:gui/icons/${modelName}"
             )
         )
     )
 
     private fun generateTintableIconItem(modelName: String) = ItemWithName(
-        name = "surf_icon_${modelName}_tintable_icon",
+        name = "surf_icon_${modelName}",
         item = Item(
             material = "LEATHER_HORSE_ARMOR",
             itemName = "$modelName tintable icon",
             pack = Pack(
-                model = "surf:gui/icons/${modelName}/tintable_icon"
+                model = "surf:gui/icons/${modelName}"
             )
         )
     )
@@ -81,9 +89,8 @@ class ConfigGenerator(
 
     private fun findAllModels(): List<String> {
         return modelOutputPath().toFile().walkTopDown()
-            .filter { it.isDirectory }
             .filter { it.toPath() != modelOutputPath() }
-            .map { it.name }
+            .map { it.nameWithoutExtension }
             .toList()
     }
 }

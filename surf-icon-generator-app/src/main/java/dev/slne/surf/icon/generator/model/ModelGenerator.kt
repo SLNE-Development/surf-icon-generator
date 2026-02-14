@@ -3,7 +3,6 @@ package dev.slne.surf.icon.generator.model
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.nio.file.Path
-import kotlin.io.path.createDirectories
 
 class ModelGenerator(
     private val iconBaseModelPath: () -> Path,
@@ -12,7 +11,7 @@ class ModelGenerator(
 ) {
     companion object {
         private val json = Json {
-            prettyPrint = true
+            prettyPrint = false
             ignoreUnknownKeys = false
             encodeDefaults = true
             explicitNulls = false
@@ -30,14 +29,11 @@ class ModelGenerator(
     }
 
     fun generate(modelName: String) {
-        val modelPath: Path = modelOutputPath().resolve(modelName)
-        modelPath.createDirectories()
-
         val tintableIconModel = generateTintableIconModel(modelName)
         val tintableBaseModel = generateTintableBaseModel(modelName)
 
-        writeModel(tintableBaseModel, "tintable_base", modelPath)
-        writeModel(tintableIconModel, "tintable_icon", modelPath)
+        writeModel(tintableBaseModel, "${modelName}_tintable_base", modelOutputPath())
+        writeModel(tintableIconModel, "${modelName}_tintable_icon", modelOutputPath())
     }
 
     private fun findAllJsons(): List<File> {
@@ -75,6 +71,8 @@ class ModelGenerator(
     ) {
         val file = filePath.resolve("$fileName.json").toFile()
         file.delete()
+
+        file.parentFile.mkdirs()
 
         file.writeText(json.encodeToString(BlockBenchModel.serializer(), model))
     }
