@@ -11,7 +11,7 @@ env:
   SLNE_SNAPSHOTS_REPO_PASSWORD: ${{ secrets.SLNE_SNAPSHOTS_REPO_PASSWORD }}
   SLNE_RELEASES_REPO_USERNAME: ${{ secrets.SLNE_RELEASES_REPO_USERNAME }}
   SLNE_RELEASES_REPO_PASSWORD: ${{ secrets.SLNE_RELEASES_REPO_PASSWORD }}
-  MODULE_REGEX: "surf-icon-generator.*-all\\.jar$"
+  MODULE_REGEX: "surf-icon-generator-launcher.*-all\\.jar$"
   DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
 
 jobs:
@@ -39,7 +39,7 @@ jobs:
           allow-snapshot-wrappers: true
 
       - name: Build with Gradle
-        run: ./gradlew shadowJar
+        run: ./gradlew createExe
 
       - name: Publish to Maven
         run: ./gradlew publish
@@ -87,6 +87,9 @@ jobs:
           # run.bat aus Root hinzufügen, falls vorhanden
           if [ -f "./run.bat" ]; then
             echo "./run.bat" >> $GITHUB_ENV
+          fi
+          if [ -f "./executables/SurfIconGenerator.exe" ]; then
+            echo "./executables/SurfIconGenerator.exe" >> $GITHUB_ENV
           fi
           echo "EOF" >> $GITHUB_ENV
 

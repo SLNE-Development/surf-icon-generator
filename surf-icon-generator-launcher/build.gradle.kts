@@ -2,6 +2,7 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id("dev.slne.surf.surfapi.gradle.standalone")
+    id("edu.sc.seis.launch4j") version "4.0.0"
     application
 }
 
@@ -63,5 +64,18 @@ tasks {
                 layout.buildDirectory.file("libs/$disabledJarName").get().asFile.absolutePath
             )
         }
+    }
+    launch4j {
+        mainClassName = application.mainClass.get()
+        setJarTask(named("shadowJar"))
+        outputDir.set(
+            rootProject.layout.buildDirectory.dir("../executables").get().asFile.absolutePath
+        )
+        outfile.set("surf-icon-generator-launcher.exe")
+        icon = "$projectDir/src/main/resources/icon.ico"
+        dontWrapJar.set(false)
+        jreMinVersion.set("25")
+        stayAlive.set(true)
+        headerType.set("console")
     }
 }
