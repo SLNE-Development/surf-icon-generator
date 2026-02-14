@@ -1,5 +1,7 @@
 package dev.slne.surf.icon.generator.utils
 
+import javafx.scene.paint.Color as FxColor
+
 data class Color(
     val name: String,
     val r: Int,
@@ -7,6 +9,16 @@ data class Color(
     val b: Int,
 ) {
     companion object {
+        fun fromFx(name: String, fxColor: FxColor): Color {
+            require(name.isNotEmpty()) { "Color name cannot be empty" }
+
+            val r = (fxColor.red * 255).toInt()
+            val g = (fxColor.green * 255).toInt()
+            val b = (fxColor.blue * 255).toInt()
+
+            return Color(name, r, g, b)
+        }
+
         fun fromRgb(name: String, r: Int, g: Int, b: Int): Color {
             require(name.isNotEmpty()) { "Color name cannot be empty" }
             require(r in 0..255) { "Red value must be between 0 and 255" }

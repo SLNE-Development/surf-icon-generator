@@ -1,39 +1,32 @@
 package dev.slne.surf.icon.generator
 
-import dev.slne.surf.icon.generator.utils.Color
-import kotlinx.coroutines.runBlocking
-import kotlin.io.path.Path
+import com.sun.javafx.application.LauncherImpl
+import dev.slne.surf.icon.generator.gui.MainApplication
+import dev.slne.surf.icon.generator.utils.UserSettings
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 
-lateinit var main: Main
-    private set
-
-fun main(args: Array<String>) {
-    main = Main(args.toList())
-
-    runBlocking {
-        main.run()
-    }
+fun main() {
+    Main.launch()
 }
 
-class Main(args: List<String>) {
-    val colorName = args.getOrElse(0) { "red" }.trim().replace("#", "")
-    val tintColor = args.getOrElse(1) { "#ff0000" }.trim().replace("#", "")
+object Main {
+    val scope =
+        CoroutineScope(SupervisorJob() + CoroutineName("Main") + CoroutineExceptionHandler { context, throwable ->
+            println("Coroutine exception in ${context[CoroutineName]}")
+            throwable.printStackTrace()
+        })
 
-    val dataPath = Path("runtime")
-
-    private var modelInputPath = dataPath.resolve("input_models")
-    private var modelOutputPath = dataPath.resolve("output_models")
-    private var configOutputPath = dataPath.resolve("output_configs")
-
-    private val generator = Generator(
-        dataPath,
-        modelInputPath,
-        modelOutputPath,
-        configOutputPath
+    val generator = Generator(
+        iconBaseModelPath = { UserSettings.iconBaseModelFile!! },
+        modelInputPath = { UserSettings.inputModelsDir!! },
+        modelOutputPath = { UserSettings.outputModelsDir!! },
+        configOutputPath = { UserSettings.outputConfigsDir!! }
     )
 
-    suspend fun run() {
-        generator.generateModels()
-        generator.generateConfigs(Color.fromHex(colorName, tintColor))
+    fun launch() {
+        LauncherImpl.launchApplication(MainApplication::class.java, emptyArray())
     }
 }

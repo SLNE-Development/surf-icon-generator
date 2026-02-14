@@ -1,6 +1,0 @@
-surf_icon_arrow_left_tintable_base_red:
-    itemname: red arrow_left
-    Components: {item_model: 'surf:models/gui/icons/arrow_left_tintable_base'}
-surf_icon_arrow_left_tintable_icon_red:
-    itemname: red arrow_left Icon
-    Components: {item_model: 'surf:models/gui/icons/arrow_left_tintable_icon'}

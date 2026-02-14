@@ -1,5 +1,0 @@
-model-input: input_models
-model-output: output_models
-nexo-texture-path: surf:textures/gui/icons
-config-output: output_configs
-nexo-model-path: surf:models/gui/icons

@@ -12,8 +12,8 @@ import java.nio.file.Path
 import kotlin.io.path.createDirectories
 
 class ConfigGenerator(
-    private val configOutputPath: Path,
-    private val modelOutputPath: Path
+    private val configOutputPath: () -> Path,
+    private val modelOutputPath: () -> Path
 ) {
     suspend fun generateAll(color: Color) {
         val models = findAllModels()
@@ -39,7 +39,7 @@ class ConfigGenerator(
         color: Color,
         items: List<ItemWithName>
     ) = withContext(Dispatchers.IO) {
-        val configPath = configOutputPath.resolve(modelName)
+        val configPath = configOutputPath().resolve(modelName)
         configPath.createDirectories()
 
         val loader = YamlConfigurationLoader.builder()
@@ -85,9 +85,9 @@ class ConfigGenerator(
     )
 
     private suspend fun findAllModels(): ObjectList<String> = withContext(Dispatchers.IO) {
-        return@withContext modelOutputPath.toFile().walkTopDown()
+        return@withContext modelOutputPath().toFile().walkTopDown()
             .filter { it.isDirectory }
-            .filter { it.toPath() != modelOutputPath }
+            .filter { it.toPath() != modelOutputPath() }
             .map { it.name }
             .toObjectList()
     }
