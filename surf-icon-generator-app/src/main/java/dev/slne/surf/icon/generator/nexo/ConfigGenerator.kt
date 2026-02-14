@@ -58,7 +58,7 @@ class ConfigGenerator(
     private fun generateTintableBaseItem(modelName: String, color: Color) = ItemWithName(
         name = "surf_icon_${modelName}_tintable_base_${color.name}",
         item = Item(
-            itemName = "${color.name} $modelName",
+            itemName = "${color.name} $modelName tintable base icon",
             components = Components(
                 itemModel = "surf:models/gui/icons/${modelName}/tintable_base",
                 color = color.toRgbString()
@@ -69,7 +69,7 @@ class ConfigGenerator(
     private fun generateTintableIconItem(modelName: String, color: Color) = ItemWithName(
         name = "surf_icon_${modelName}_tintable_icon_${color.name}",
         item = Item(
-            itemName = "${color.name} $modelName Icon",
+            itemName = "${color.name} $modelName tintable icon",
             components = Components(
                 itemModel = "surf:models/gui/icons/${modelName}/tintable_icon",
                 color = color.toRgbString()

@@ -33,8 +33,8 @@ class ModelGenerator(
         val tintableIconModel = generateTintableIconModel(modelName)
         val tintableBaseModel = generateTintableBaseModel(modelName)
 
-        writeModel(tintableBaseModel, "tintable_base", modelName, modelPath)
-        writeModel(tintableIconModel, "tintable_icon", modelName, modelPath)
+        writeModel(tintableBaseModel, "tintable_base", modelPath)
+        writeModel(tintableIconModel, "tintable_icon", modelPath)
     }
 
     private fun findAllJsons(): List<File> {
@@ -69,11 +69,10 @@ class ModelGenerator(
 
     private fun writeModel(
         model: BlockBenchModel,
-        modelName: String,
         fileName: String,
         filePath: Path
     ) {
-        val file = filePath.resolve("$modelName/$fileName.json").toFile()
+        val file = filePath.resolve("$fileName.json").toFile()
         file.delete()
 
         file.writeText(json.encodeToString(BlockBenchModel.serializer(), model))
