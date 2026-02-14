@@ -60,7 +60,7 @@ class ConfigGenerator(
         item = Item(
             itemName = "${color.name} $modelName",
             components = Components(
-                itemModel = "surf:models/gui/icons/${modelName}_tintable_base",
+                itemModel = "surf:models/gui/icons/${modelName}/tintable_base",
                 color = color.toRgbString()
             )
         )
@@ -71,7 +71,7 @@ class ConfigGenerator(
         item = Item(
             itemName = "${color.name} $modelName Icon",
             components = Components(
-                itemModel = "surf:models/gui/icons/${modelName}_tintable_icon",
+                itemModel = "surf:models/gui/icons/${modelName}/tintable_icon",
                 color = color.toRgbString()
             )
         )
