@@ -1,0 +1,57 @@
+{
+	"format_version": "1.21.6",
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:leather_horse_armor",
+	"textures": {
+		"0": "surf:gui/icons/arrow"
+	},
+	"elements": [
+		{
+			"from": [6.93934, 0, 3.18198],
+			"to": [8.93934, 1, 14.18198],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8.06066, 0.5, 7.12132]},
+			"faces": {
+				"north": {"uv": [10, 8, 12, 9], "texture": "#0"},
+				"east": {"uv": [0, 5, 11, 6], "texture": "#0"},
+				"south": {"uv": [10, 9, 12, 10], "texture": "#0"},
+				"west": {"uv": [0, 4, 11, 5], "texture": "#0"},
+				"up": {"uv": [11, 2, 0, 0], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [11, 2, 0, 4], "rotation": 90, "texture": "#0"}
+			}
+		},
+		{
+			"from": [5.25, 0, 3.60355],
+			"to": [10.25, 1, 5.60355],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8.06066, 0.5, 7.12132]},
+			"faces": {
+				"north": {"uv": [0, 10, 5, 11], "texture": "#0"},
+				"east": {"uv": [10, 10, 12, 11], "texture": "#0"},
+				"south": {"uv": [5, 10, 10, 11], "texture": "#0"},
+				"west": {"uv": [0, 11, 2, 12], "texture": "#0"},
+				"up": {"uv": [5, 8, 0, 6], "texture": "#0"},
+				"down": {"uv": [10, 6, 5, 8], "texture": "#0"}
+			}
+		},
+		{
+			"from": [9.57843, 0, 4.93198],
+			"to": [11.57843, 1, 9.93198],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8.06066, 0.5, 7.12132]},
+			"faces": {
+				"north": {"uv": [11, 0, 13, 1], "texture": "#0", "cullface": "north", "tintindex": 0},
+				"east": {"uv": [10, 7, 15, 8], "texture": "#0"},
+				"south": {"uv": [11, 1, 13, 2], "texture": "#0"},
+				"west": {"uv": [10, 6, 15, 7], "texture": "#0"},
+				"up": {"uv": [5, 10, 0, 8], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [10, 8, 5, 10], "rotation": 90, "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "icon",
+			"origin": [-2, 1, 0],
+			"color": 0,
+			"children": [0, 1, 2]
+		}
+	]
+}

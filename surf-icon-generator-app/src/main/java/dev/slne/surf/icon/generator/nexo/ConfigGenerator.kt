@@ -5,10 +5,23 @@ import org.spongepowered.configurate.kotlin.objectMapperFactory
 import org.spongepowered.configurate.yaml.YamlConfigurationLoader
 import java.nio.file.Path
 
+@Suppress("CanBeParameter")
 class ConfigGenerator(
     private val configOutputPath: () -> Path,
     private val modelOutputPath: () -> Path
 ) {
+
+    private val yamlLoader = YamlConfigurationLoader.builder()
+        .path(configOutputPath().resolve("icons.yml"))
+        .defaultOptions { options ->
+            options.serializers { builder ->
+                builder.registerAnnotatedObjects(objectMapperFactory())
+            }
+        }
+        .build()
+
+    private val rootNode = yamlLoader.load()
+
     fun generateAll() {
         val models = findAllModels()
 
@@ -21,31 +34,22 @@ class ConfigGenerator(
         val tintableBaseItem = generateTintableBaseItem(modelName)
         val tintableIconItem = generateTintableIconItem(modelName)
 
-        writeToYml(
-            modelName,
-            listOf(tintableBaseItem, tintableIconItem)
-        )
+        saveNewModel(tintableBaseItem, tintableIconItem)
     }
 
-    private fun writeToYml(
-        modelName: String,
-        items: List<ItemWithName>
+    private fun saveNewModel(
+        tintableBaseItem: ItemWithName,
+        tintableIconItem: ItemWithName
     ) {
-        val loader = YamlConfigurationLoader.builder()
-            .path(configOutputPath().resolve("${modelName}.yml"))
-            .defaultOptions { options ->
-                options.serializers { builder ->
-                    builder.registerAnnotatedObjects(objectMapperFactory())
-                }
-            }
-            .build()
+        writeToYml(listOf(tintableBaseItem, tintableIconItem))
+    }
 
-        val root = loader.createNode()
+    private fun writeToYml(items: List<ItemWithName>) {
         items.forEach { (name, item) ->
-            root.node(name).set(item)
+            rootNode.node(name).set(item)
         }
 
-        loader.save(root)
+        yamlLoader.save(rootNode)
     }
 
     private fun generateTintableBaseItem(modelName: String) = ItemWithName(
