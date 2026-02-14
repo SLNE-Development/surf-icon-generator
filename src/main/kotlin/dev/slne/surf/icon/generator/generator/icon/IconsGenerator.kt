@@ -50,7 +50,7 @@ class IconsGenerator(
         }
 
         textureOutputPath.createDirectories()
-        
+
         try {
             textureInputPath.copyToRecursively(
                 target = textureOutputPath,
@@ -69,7 +69,6 @@ class IconsGenerator(
         val files = textureOutputPath.toFile().walkTopDown().filter { it.isFile }.toObjectList()
 
         for (file in files) {
-            println("Processing file: ${file.absolutePath}")
             val fileType = file.extension.lowercase()
 
             try {

@@ -36,7 +36,8 @@ class PaperMain : SuspendingJavaPlugin() {
         configInputPathRelative = iconConfig.configInput,
         configOutputPathRelative = iconConfig.configOutput,
         textureInputPathRelative = iconConfig.textureInput,
-        textureOutputPathRelative = iconConfig.textureOutput
+        textureOutputPathRelative = iconConfig.textureOutput,
+        nexoTexturePath = iconConfig.nexoTexturePath
     )
 
     private suspend fun copyDefaultsIfNotExists() = withContext(Dispatchers.IO) {

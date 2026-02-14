@@ -18,7 +18,9 @@ class IconGenerator(
     private val configInputPathRelative: String,
     private val configOutputPathRelative: String,
     private val textureInputPathRelative: String,
-    private val textureOutputPathRelative: String
+    private val textureOutputPathRelative: String,
+
+    private val nexoTexturePath: String,
 ) {
     init {
         foregroundColor = foregroundColor.trim().removePrefix("#")
@@ -34,7 +36,7 @@ class IconGenerator(
         name = name,
         inputPathRelative = configInputPathRelative,
         outputPathRelative = configOutputPathRelative,
-        textureOutputPathRelative = textureOutputPathRelative
+        nexoTexturePath = nexoTexturePath
     )
 
     private val iconsGenerator = IconsGenerator(

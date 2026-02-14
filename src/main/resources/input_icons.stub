@@ -2,7 +2,7 @@ icon_{{name}}_template_item:
   material: PAPER
 
 icon_{{name}}_arrow_left:
-  template: {{name}}_template_item
+  template: icon_{{name}}_template_item
   Pack:
     texture: "{{texture_output_directory}}/arrow_left.png"
   itemname: "Left Arrow"

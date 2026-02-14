@@ -11,9 +11,10 @@ private const val STUB_TEXTURE_OUTPUT_DIRECTORY = "{{texture_output_directory}}"
 @Suppress("CanBeParameter")
 class ConfigGenerator(
     private val name: String,
+
     private val inputPathRelative: String,
     private val outputPathRelative: String,
-    private val textureOutputPathRelative: String
+    private val nexoTexturePath: String,
 ) {
     private val inputPath = plugin.dataPath.resolve(inputPathRelative)
     private val outputPath = plugin.dataPath.resolve(outputPathRelative)
@@ -58,7 +59,7 @@ class ConfigGenerator(
             var content = outputFile.readText()
 
             content = content.replace(STUB_NAME, name)
-            content = content.replace(STUB_TEXTURE_OUTPUT_DIRECTORY, textureOutputPathRelative)
+            content = content.replace(STUB_TEXTURE_OUTPUT_DIRECTORY, nexoTexturePath)
 
             outputFile.writeText(content)
 
