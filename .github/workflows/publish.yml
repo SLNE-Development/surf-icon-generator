@@ -76,13 +76,18 @@ jobs:
             echo "MAKE_LATEST=true" >> $GITHUB_ENV
           fi
 
-      - name: Find and filter JAR files
-        id: find_jars
+      - name: Find and filter artifacts
+        id: find_artifacts
         run: |
-          echo "JAR_FILES<<EOF" >> $GITHUB_ENV
+          echo "ARTIFACTS<<EOF" >> $GITHUB_ENV
+          # Alle passenden JARs
           find . -path "**/build/libs/*.jar" \
             | grep -E "${{ env.MODULE_REGEX }}" \
             >> $GITHUB_ENV
+          # run.bat aus Root hinzufügen, falls vorhanden
+          if [ -f "./run.bat" ]; then
+            echo "./run.bat" >> $GITHUB_ENV
+          fi
           echo "EOF" >> $GITHUB_ENV
 
       - name: Create GitHub Release
@@ -93,7 +98,7 @@ jobs:
           draft: false
           prerelease: ${{ env.PRERELEASE }}
           make_latest: ${{ env.MAKE_LATEST }}
-          files: ${{ env.JAR_FILES }}
+          files: ${{ env.ARTIFACTS }}
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -42,6 +42,12 @@ tasks {
         dependsOn(copyAppJarTask)
         from(layout.buildDirectory.file("libs/$disabledJarName"))
 
+        manifest {
+            attributes(
+                "Main-Class" to application.mainClass.get()
+            )
+        }
+
         doLast {
             val file = layout.buildDirectory.file("libs/$disabledJarName").get().asFile
 
