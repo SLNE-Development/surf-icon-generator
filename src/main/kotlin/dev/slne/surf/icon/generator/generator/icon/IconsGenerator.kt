@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import javax.imageio.ImageIO
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.copyToRecursively
+import kotlin.io.path.createDirectories
 import kotlin.io.path.exists
 
 @Suppress("CanBeParameter")
@@ -48,6 +49,8 @@ class IconsGenerator(
             return@withContext GeneratorResult.ICONS_INPUT_NOT_FOUND
         }
 
+        textureOutputPath.createDirectories()
+        
         try {
             textureInputPath.copyToRecursively(
                 target = textureOutputPath,
