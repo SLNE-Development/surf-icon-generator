@@ -8,10 +8,6 @@ import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 
-fun main() {
-    Main.launch()
-}
-
 object Main {
     val scope =
         CoroutineScope(SupervisorJob() + CoroutineName("Main") + CoroutineExceptionHandler { context, throwable ->

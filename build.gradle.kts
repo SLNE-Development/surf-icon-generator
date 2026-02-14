@@ -17,5 +17,5 @@ javafx {
 }
 
 application {
-    mainClass.set("dev.slne.surf.surf.icon.generator.MainKt")
+    mainClass.set("dev.slne.surf.surf.icon.generator.LauncherKt")
 }
