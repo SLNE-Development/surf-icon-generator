@@ -8,6 +8,8 @@ data class Color(
     val g: Int,
     val b: Int,
 ) {
+    fun toRgbString() = "$r, $g, $b"
+
     companion object {
         fun fromFx(name: String, fxColor: FxColor): Color {
             require(name.isNotEmpty()) { "Color name cannot be empty" }

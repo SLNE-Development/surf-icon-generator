@@ -6,5 +6,8 @@ import org.spongepowered.configurate.objectmapping.meta.Setting
 @ConfigSerializable
 data class Components(
     @Setting("item_model")
-    val itemModel: String
+    val itemModel: String,
+
+    @Setting("color")
+    val color: String? = null
 )
