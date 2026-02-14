@@ -88,8 +88,8 @@ jobs:
           if [ -f "./run.bat" ]; then
             echo "./run.bat" >> $GITHUB_ENV
           fi
-          if [ -f "./executables/SurfIconGenerator.exe" ]; then
-            echo "./executables/SurfIconGenerator.exe" >> $GITHUB_ENV
+          if [ -f "./executables/surf-icon-generator-launcher.exe" ]; then
+            echo "./executables/surf-icon-generator-launcher.exe" >> $GITHUB_ENV
           fi
           echo "EOF" >> $GITHUB_ENV
 
