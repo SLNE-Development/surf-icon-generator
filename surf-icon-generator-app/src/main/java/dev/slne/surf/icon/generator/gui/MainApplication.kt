@@ -4,6 +4,7 @@ import dev.slne.surf.icon.generator.utils.withGlobalStyles
 import javafx.application.Application
 import javafx.geometry.Insets
 import javafx.scene.Scene
+import javafx.scene.image.Image
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
@@ -20,6 +21,15 @@ class MainApplication : Application() {
 
         root.left = sidebar
         root.center = contentStack
+
+        val resource = javaClass.getResourceAsStream("/icon.png").use {
+            if (it == null) {
+                throw IllegalStateException("Icon resource not found")
+            }
+            Image(it)
+        }
+
+        stage.icons.add(resource)
 
         stage.title = "Surf Icon Generator"
         stage.scene = scene
